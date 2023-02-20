@@ -1,10 +1,14 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import { AboutLink } from "./components/AboutLink";
 import { FeedbackForm } from "./components/FeedbackForm";
 import { FeedbackList } from "./components/FeedbackList";
 import { FeedbackStats } from "./components/FeedbackStats";
 import Header from "./components/Header";
+import { FeedbackProvider } from "./context/FeedbackContext";
 import { FeedbackData } from "./data/FeedbackData";
+import { About } from "./pages/About";
 
 import "./index.css";
 
@@ -18,14 +22,28 @@ const App = () => {
     setFeedBackList(feedBack.filter((item) => item.id !== id));
   };
   return (
-    <>
-      <Header />
-      <FeedbackForm handelAdd={addFeedback} />
-      <div className="container">
-        <FeedbackStats feedback={feedBack} />
-        <FeedbackList feedback={feedBack} handelDelete={deleteFeedback} />
-      </div>
-    </>
+    <FeedbackProvider>
+      <Router>
+        <Header />
+        <div className="container">
+          <Routes>
+            <Route
+              exact
+              path="/"
+              element={
+                <>
+                  <FeedbackForm handelAdd={addFeedback} />
+                  <FeedbackStats />
+                  <FeedbackList handelDelete={deleteFeedback} />
+                </>
+              }
+            ></Route>
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </div>
+        <AboutLink />
+      </Router>
+    </FeedbackProvider>
   );
 };
 

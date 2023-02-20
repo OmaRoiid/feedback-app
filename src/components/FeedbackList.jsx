@@ -1,7 +1,10 @@
-import PropTypes from "prop-types";
+import { useContext } from "react";
+import FeedbackContext from "../context/FeedbackContext";
 import { FeedbackItem } from "./FeedbackItem";
 
-export function FeedbackList({ feedback, handelDelete }) {
+export function FeedbackList({ handelDelete }) {
+  const { feedback } = useContext(FeedbackContext);
+  console.log(feedback);
   if (!feedback || !feedback.length) {
     return <p> No Feedback Yet.</p>;
   }
@@ -13,7 +16,3 @@ export function FeedbackList({ feedback, handelDelete }) {
     </div>
   );
 }
-
-FeedbackList.propTypes = {
-  feedback: PropTypes.array.isRequired,
-};
